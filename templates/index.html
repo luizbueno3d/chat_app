@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Llama 3</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <form id="chat-form">
+            <input type="text" id="user-input" placeholder="Type your message here...">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#chat-form').on('submit', function(e) {
+                e.preventDefault();
+                var userMessage = $('#user-input').val();
+                $('#chat-box').append('<div class="user-message">' + userMessage + '</div>');
+                $.post('/chat', { message: userMessage }, function(data) {
+                    $('#chat-box').append('<div class="bot-message">' + data.response + '</div>');
+                });
+                $('#user-input').val('');
+            });
+        });
+    </script>
+</body>
+</html>
