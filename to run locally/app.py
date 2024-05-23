@@ -1,5 +1,5 @@
-import os
 from flask import Flask, request, render_template, jsonify
+import os
 from groq import Client
 
 app = Flask(__name__)
@@ -18,6 +18,7 @@ def chat():
     with open('train.txt', 'r') as file:
         training_data = file.read()
 
+    # Combine training data and user input for context
     prompt = f"{training_data}\n\nUser: {user_input}\nAssistant:"
 
     response = client.chat.completions.create(
@@ -34,4 +35,4 @@ def chat():
     return jsonify({'response': answer})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    app.run(debug=True)
